@@ -5,7 +5,7 @@ const multiply = (num1, num2) => num1 * num2;
 const divide = (num1, num2) => num1 / num2;
     
 
-function operate(num1, num2, operator)
+function operate(operator, num1, num2)
 {
     if (operator == "+") {
         add(num1, num2);
@@ -20,3 +20,4 @@ function operate(num1, num2, operator)
         divide(num1, num2);
     }
 }
+
