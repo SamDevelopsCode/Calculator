@@ -19,6 +19,9 @@ body
     border: 1px solid black;
     display: flex;
     flex: 1;
+    justify-content: end;
+    align-items: end;
+    font-size: 80px;
 }
 
 .buttons
