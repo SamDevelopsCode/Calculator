@@ -59,7 +59,7 @@
 //     alert("Hello World");
 // })
 
-const display = querySelector(".display");
+const display = document.querySelector("#display");
 const buttons = document.querySelectorAll("button");
 const buttonArray = Array.from(buttons);
 
@@ -91,12 +91,14 @@ function createButtonEvents(array)
 {
     for (let i = 0; i < array.length; i++) {
         array[i].addEventListener("click", () => {
-            console.log(buttonArray[i]);
-             //display the correct number when clicked
-             //in the display box
-        })        
+            displayStuff(buttonArray[i].textContent);
+        })                
     }
+}
 
+function displayStuff(thing)
+{
+    display.insertAdjacentText("beforeend", thing);
 }
 
 createButtonEvents(buttonArray);
