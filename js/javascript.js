@@ -1,4 +1,4 @@
-const display = document.querySelector("#display");
+const displayContainer = document.querySelector("#display");
 const clearButton = document.querySelector(".clear");
 const addButton = document.querySelector(".add");
 const subtractButton = document.querySelector(".subtract");
@@ -39,20 +39,26 @@ function assignButtonEvents()
     {        
         numbersButtonArray[i].addEventListener("click", () => 
         {
-            displayStuff(numbersButtonArray[i].textContent);
+            display(numbersButtonArray[i].textContent);
         })
     }
 
     clearButton.addEventListener("click", () => 
     {
         console.log("Clicked CLEAR.");
+        //clear display and refresh all variables holding values
     })    
 
     addButton.addEventListener("click", () => 
     {
         console.log("Clicked add.");
-        firstNum = parseFloat(display.textContent); // <-----Feel like if I do this, but its like I need to do this in each operator...Hmm...
-        console.log(firstNum);
+        firstNum = parseFloat(displayContainer.textContent); // 1. when clicked, convert the string into a float and store into a variable
+        // 2. override what is shown in the display if more numbers are clicked 
+        // 3. then either another operator or the equals will be pressed
+        // 4. if operator is clicked, show the value of the operation before
+        // 5. if the equals is clicked, show the value of the operation
+        //const value = operate("+", firstNum, secondNum)// complete the operation and store it 
+        //display(value.toString) // display that total variable
     })
 
     subtractButton.addEventListener("click", () => 
@@ -77,12 +83,12 @@ function assignButtonEvents()
     
 }
 
-function displayStuff(thing)
+function display(text)
 {
-    display.insertAdjacentText("beforeend", thing);
+    displayContainer.insertAdjacentText("beforeend", text);
 }
 
-//                      ENTRY POINT
+//                         ENTRY POINT
 //--------------------------------------------------------------------
 assignButtonEvents();
 
