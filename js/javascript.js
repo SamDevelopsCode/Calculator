@@ -6,7 +6,7 @@ const multiplyButton = document.querySelector(".multiply");
 const divideButton = document.querySelector(".divide");
 const equalsButton = document.querySelector(".equals");
 
-const buttons = document.querySelectorAll("button");
+const buttons = document.querySelectorAll(".number");
 const numbersButtonArray = Array.from(buttons);
 
 const add = (num1, num2) => num1 + num2;
@@ -17,6 +17,7 @@ const divide = (num1, num2) => num1 / num2;
 let a = null;
 let b = null;
 let total = 0;
+let tempText = "";
 
 function operate(operator, num1, num2)
 {
@@ -40,13 +41,12 @@ function operate(operator, num1, num2)
 
 function assignButtonEvents()
 {
-    console.log("a: ", a)
-
     for (let i = 0; i < numbersButtonArray.length; i++)
     {        
         numbersButtonArray[i].addEventListener("click", () => 
-        {            
-            display(numbersButtonArray[i].textContent);                                
+        { 
+            display(numbersButtonArray[i].textContent);
+            console.log("tempText: ", tempText);
         })
     }
 
@@ -54,21 +54,28 @@ function assignButtonEvents()
     {
         console.log("Clicked CLEAR.");
         displayContainer.textContent = "";
-        //clear display and refresh all variables holding values
     })    
 
     addButton.addEventListener("click", () => 
-    {
-        console.log("Clicked add.");
-        a = parseInt(displayContainer.textContent);
+    {   
+        if(a == null)
+        {
+            a = parseInt(displayContainer.textContent);        
+        }
+        else if (a != null && b == null)
+        {
+            b = parseInt(displayContainer.textContent);
+        }
+        else if (a != null && b != null)
+        {
+            operate("+", a, b);
+        }
+
+
         console.log("a: ", a);
-        operator = "+"; 
-        // 2. override what is shown in the display if more numbers are clicked 
-        // 3. then either another operator or the equals will be pressed
-        // 4. if operator is clicked, show the value of the operation before
-        // 5. if the equals is clicked, show the value of the operation
-        //const value = operate(operator, a, b)// complete the operation and store it 
-        //display(value.toString) // display that total variable
+        console.log("b: ", b);
+        console.log("total: ", total);
+
     })
 
     subtractButton.addEventListener("click", () => 
@@ -95,14 +102,10 @@ function assignButtonEvents()
 
 function display(text)
 {
-    displayContainer.insertAdjacentText("beforeend", text);
+    tempText += text;
+    displayContainer.textContent = tempText;
 }
 
 //                         ENTRY POINT
 //--------------------------------------------------------------------
 assignButtonEvents();
-
-
-//When an operator is clicked, store the current number
-//When the = sign is clicked, store the completed operation
-//convert back into a string and display again
