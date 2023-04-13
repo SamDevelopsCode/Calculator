@@ -17,7 +17,8 @@ const divide = (num1, num2) => num1 / num2;
 let a = null;
 let b = null;
 let total = 0;
-let tempText = "";
+let displayText = "";
+let clicks = 0;
 
 function operate(operator, num1, num2)
 {
@@ -46,7 +47,7 @@ function assignButtonEvents()
         numbersButtonArray[i].addEventListener("click", () => 
         { 
             display(numbersButtonArray[i].textContent);
-            console.log("tempText: ", tempText);
+            clicks = 0;            
         })
     }
 
@@ -54,24 +55,34 @@ function assignButtonEvents()
     {
         console.log("Clicked CLEAR.");
         displayContainer.textContent = "";
+        a = null;
+        b = null;
+        total = null;
+        temp = null;
     })    
 
     addButton.addEventListener("click", () => 
     {   
-        if(a == null)
+        if(a == null && clicks == 0)
         {
-            a = parseInt(displayContainer.textContent);        
+            a = parseInt(displayContainer.textContent); 
+            displayText = "";
+            clicks += 1;
         }
-        else if (a != null && b == null)
+        else if (a != null && b == null && clicks == 0)
         {
             b = parseInt(displayContainer.textContent);
-        }
-        else if (a != null && b != null)
-        {
+
             operate("+", a, b);
-        }
+            displayContainer.textContent = total.toString();
+            displayText = "";
 
+            a = total;
+            b = null;
+            clicks += 1;
+        }        
 
+        console.log("tempText: ", displayText);
         console.log("a: ", a);
         console.log("b: ", b);
         console.log("total: ", total);
@@ -102,8 +113,8 @@ function assignButtonEvents()
 
 function display(text)
 {
-    tempText += text;
-    displayContainer.textContent = tempText;
+    displayText += text;
+    displayContainer.textContent = displayText;
 }
 
 //                         ENTRY POINT
