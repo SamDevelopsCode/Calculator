@@ -20,6 +20,9 @@ let total = 0;
 let displayText = "";
 let clicks = 0;
 
+let nextCalculation = null;
+let lastCalculation = null;
+
 function operate(operator, num1, num2)
 {
     if (operator == "+") {
@@ -47,6 +50,7 @@ function assignButtonEvents()
         numbersButtonArray[i].addEventListener("click", () => 
         { 
             display(numbersButtonArray[i].textContent);
+            console.log("display Text: ", displayText);
             clicks = 0;            
         })
     }
@@ -58,50 +62,66 @@ function assignButtonEvents()
         a = null;
         b = null;
         total = null;
-        temp = null;
     })    
 
     addButton.addEventListener("click", () => 
     {   
-        if(a == null && clicks == 0)
+        if (lastCalculation == null)
         {
-            a = parseInt(displayContainer.textContent); 
-            displayText = "";
-            clicks += 1;
+            nextCalculation = "+";
+            lastCalculation = "+"
+            calculate(lastCalculation);
         }
-        else if (a != null && b == null && clicks == 0)
+        else
         {
-            b = parseInt(displayContainer.textContent);
-
-            operate("+", a, b);
-            displayContainer.textContent = total.toString();
-            displayText = "";
-
-            a = total;
-            b = null;
-            clicks += 1;
-        }        
-
-        console.log("tempText: ", displayText);
-        console.log("a: ", a);
-        console.log("b: ", b);
-        console.log("total: ", total);
-
+            calculate(nextCalculation);
+            nextCalculation = "+";
+        }
     })
 
     subtractButton.addEventListener("click", () => 
     {
-        console.log("Clicked subtract.");
+        if (lastCalculation == null)
+        {
+            nextCalculation = "-";
+            lastCalculation = "-";
+            calculate(lastCalculation);
+        }
+        else
+        {
+            calculate(nextCalculation);
+            nextCalculation = "-";
+        }
     })
 
     multiplyButton.addEventListener("click", () => 
     {
-        console.log("Clicked multiply.");
+        if (lastCalculation == null)
+        {
+            nextCalculation = "*";
+            lastCalculation = "*";
+            calculate(lastCalculation);
+        }
+        else
+        {
+            calculate(nextCalculation);
+            nextCalculation = "*";
+        }
     })
 
     divideButton.addEventListener("click", () => 
     {
-        console.log("Clicked divide.");
+        if (lastCalculation == null)
+        {
+            nextCalculation = "/";
+            lastCalculation = "/";
+            calculate(lastCalculation);
+        }
+        else
+        {
+            calculate(nextCalculation);
+            nextCalculation = "/";
+        }
     })
 
     equalsButton.addEventListener("click", () => 
@@ -115,6 +135,33 @@ function display(text)
 {
     displayText += text;
     displayContainer.textContent = displayText;
+}
+
+function calculate(operator)
+{
+    if(a == null && clicks == 0)
+    {
+        a = parseInt(displayContainer.textContent); 
+        displayText = "";
+        clicks += 1;
+    }
+    else if (a != null && b == null && clicks == 0)
+    {
+        b = parseInt(displayContainer.textContent);
+
+        operate(operator, a, b);
+        displayContainer.textContent = total.toString();
+        displayText = "";
+
+        a = total;
+        b = null;
+        clicks += 1;
+    }        
+
+    console.log("display Text: ", displayText);
+    console.log("a: ", a);
+    console.log("b: ", b);
+    console.log("total: ", total);
 }
 
 //                         ENTRY POINT
