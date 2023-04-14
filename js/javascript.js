@@ -26,19 +26,28 @@ let lastCalculation = null;
 function operate(operator, num1, num2)
 {
     if (operator == "+") {
-        total = add(num1, num2);
+        total = add(num1, num2);        
         return total;
     }
     else if (operator == "-") {
-        total =subtract(num1, num2);
+        total = subtract(num1, num2);
         return total;
     }
     else if (operator == "*") {
         total = multiply(num1, num2);
+        total = total.toFixed(2);
+        total = parseFloat(total);        
         return total;
     }
     else if (operator == "/") {
         total = divide(num1, num2);
+        total = total.toFixed(2);
+        total = parseFloat(total);           
+        
+        if (!isFinite(total))
+        {
+            total = 0;
+        }
         return total;
     }
 }
@@ -57,15 +66,23 @@ function assignButtonEvents()
 
     clearButton.addEventListener("click", () => 
     {
-        console.log("Clicked CLEAR.");
+        displayText = "";
         displayContainer.textContent = "";
         a = null;
         b = null;
         total = null;
+        lastCalculation = null;
+        nextCalculation = null;        
     })    
 
     addButton.addEventListener("click", () => 
     {   
+        if (displayContainer.textContent == "ERROR")
+        {
+            total = 0;
+            displayContainer.textContent = total;
+        }
+        
         if (lastCalculation == null)
         {
             nextCalculation = "+";
@@ -81,6 +98,12 @@ function assignButtonEvents()
 
     subtractButton.addEventListener("click", () => 
     {
+        if (displayContainer.textContent == "ERROR")
+        {
+            total = 0;
+            displayContainer.textContent = total;
+        }
+
         if (lastCalculation == null)
         {
             nextCalculation = "-";
@@ -96,6 +119,12 @@ function assignButtonEvents()
 
     multiplyButton.addEventListener("click", () => 
     {
+        if (displayContainer.textContent == "ERROR")
+        {            
+            total = 0;
+            displayContainer.textContent = total;
+        }
+
         if (lastCalculation == null)
         {
             nextCalculation = "*";
@@ -111,6 +140,12 @@ function assignButtonEvents()
 
     divideButton.addEventListener("click", () => 
     {
+        if (displayContainer.textContent == "ERROR")
+        {            
+            total = 0;
+            displayContainer.textContent = total;
+        }
+
         if (lastCalculation == null)
         {
             nextCalculation = "/";
@@ -125,8 +160,16 @@ function assignButtonEvents()
     })
 
     equalsButton.addEventListener("click", () => 
-    {
-        console.log("Clicked enter. Doing an operation now.");
+    {        
+        if (nextCalculation == "/" || lastCalculation == "/" && a == 0 || b == 0)
+        {
+            lastCalculation = null;
+            displayContainer.textContent = "ERROR";
+        }
+        else 
+        {
+            calculate(nextCalculation);
+        }
     })
     
 }
@@ -154,14 +197,10 @@ function calculate(operator)
         displayText = "";
 
         a = total;
+        console.log("b: ", b);
         b = null;
         clicks += 1;
-    }        
-
-    console.log("display Text: ", displayText);
-    console.log("a: ", a);
-    console.log("b: ", b);
-    console.log("total: ", total);
+    }            
 }
 
 //                         ENTRY POINT
