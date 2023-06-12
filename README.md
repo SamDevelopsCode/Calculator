@@ -1,2 +1,4 @@
 # Calculator
-An online calculator.
+An online calculator created with Html/Css/Flexbox/Javascript
+
+
